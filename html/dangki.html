@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Đăng ký - Muzikra</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/animations.css">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    .register-container {
+      max-width: 400px;
+      margin: 80px auto;
+      padding: 30px;
+      background-color: #fff;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .register-container h1 {
+      color: #06bb6f;
+      text-align: center;
+      margin-bottom: 30px;
+      font-size: 28px;
+    }
+
+    .register-form {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .register-form input {
+      padding: 14px;
+      font-size: 16px;
+      border-radius: 8px;
+      border: 1px solid #ddd;
+      background-color: #f7f7f7;
+      transition: border-color 0.3s ease;
+    }
+
+    .register-form input:focus {
+      border-color: #06bb6f;
+      outline: none;
+      box-shadow: 0 0 0 2px rgba(6, 187, 111, 0.2);
+    }
+
+    .register-form button {
+      padding: 14px;
+      font-size: 16px;
+      background-color: #06bb6f;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      font-weight: bold;
+    }
+
+    .register-form button:hover {
+      background-color: #04a357;
+    }
+
+    .form-footer {
+      text-align: center;
+      margin-top: 20px;
+      color: #666;
+    }
+
+    .form-footer a {
+      color: #06bb6f;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .form-footer a:hover {
+      text-decoration: underline;
+    }
+
+    .back-link {
+      display: block;
+      text-align: center;
+      margin-top: 20px;
+      color: #666;
+      text-decoration: none;
+    }
+
+    .back-link:hover {
+      color: #06bb6f;
+    }
+
+    .back-link i {
+      margin-right: 5px;
+    }
+
+    @media (max-width: 768px) {
+      .register-container {
+        margin: 40px 20px;
+        padding: 20px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Navigation bar -->
+  <nav class="navbar">
+    <div class="logo">
+      <img src="../assets/icons/logoweb.png" alt="Muzikra Logo" style="height: 30px; margin-right: 8px;">
+      <span>Muzikra</span>
+    </div>
+    <ul class="nav-links">
+      <li><a href="../index.html">Trang chủ</a></li>
+      <li class="dropdown-parent">
+        <a href="#album">Album</a>
+        <ul class="dropdown" id="album-dropdown-list">
+          <li><a href="album_1.html">Nhạc Trẻ Việt Hot</a></li>
+          <li><a href="album_2.html">Nhạc Buồn</a></li>
+          <li><a href="album_3.html">Nhạc Trịnh</a></li>
+          <li><a href="album_4.html">Nhạc Hoa Lời Việt</a></li>
+          <li><a href="album_5.html">Nhạc Hoa Thịnh Hành</a></li>
+          <li><a href="album_6.html">Nhạc US-UK</a></li>
+          <li><a href="album_7.html">Top Trending</a></li>
+          <li><a href="album_8.html">Lofi Chill</a></li>
+        </ul>
+      </li>
+      <li><a href="../index.html#newsongs">Bài hát mới</a></li>
+      <li><a href="../index.html#chart">Bảng xếp hạng</a></li>
+      <li><a href="../index.html#artists">Ca sĩ</a></li>
+      <li class="dropdown-parent">
+        <a href="#">Tài khoản</a>
+        <ul class="dropdown">
+          <li><a href="dangki.html">Đăng ký</a></li>
+          <li><a href="dangnhap.html">Đăng nhập</a></li>
+        </ul>
+      </li>
+    </ul>
+  </nav>
+
+  <!-- Register Form -->
+  <div class="register-container">
+    <h1>Đăng ký</h1>
+    <form class="register-form">
+      <input type="text" placeholder="Tên người dùng" required>
+      <input type="email" placeholder="Email" required>
+      <input type="password" placeholder="Mật khẩu" required>
+      <input type="password" placeholder="Xác nhận mật khẩu" required>
+      <button type="submit">Đăng ký</button>
+    </form>
+    <div class="form-footer">
+      Đã có tài khoản? <a href="dangnhap.html">Đăng nhập</a>
+    </div>
+    <a href="../index.html" class="back-link"><i class="fas fa-arrow-left"></i> Quay lại trang chủ</a>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="footer-logo">
+        <img src="../assets/icons/logoweb.png" alt="Logo" class="logo">
+      </div>
+      <div class="footer-info">
+        <p>&copy; 2025 Muzikra - All Rights Reserved</p>
+      </div>
+    </div>
+    <ul class="footer-links">
+      <li><a href="gioithieu.html">Giới thiệu</a></li>
+      <li><a href="dieukhoan.html">Điều khoản sử dụng</a></li>
+      <li><a href="chinhsachbaomat.html">Chính sách bảo mật</a></li>
+      <li><a href="hotro.html">Hỗ trợ</a></li>
+    </ul>
+    <div class="footer-info">
+      <p><strong>Đồ án cơ sở 1: </strong>Muzikra - Dự án nghe nhạc trực tuyến</p>
+      <p><strong>Sinh viên: </strong>Nguyễn Đặng Khánh Hưng</p>
+      <p><strong>Giáo viên hướng dẫn: </strong>TS. Phan Thị Lan Anh</p>
+    </div>
+    <div class="social-links">
+      <a href="https://www.facebook.com/0sabuf487bwow"><img src="../assets/icons/facebook1.png" alt="Facebook"></a>
+      <a href="https://www.instagram.com/jwjsjsiwed/"><img src="../assets/icons/instagram1.png" alt="Instagram"></a>
+      <a href="#"><img src="../assets/icons/twitter1.png" alt="Twitter"></a>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="../js/script.js"></script>
+</body>
+
+</html>

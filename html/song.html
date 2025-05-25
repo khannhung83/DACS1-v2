@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+<!-- Song Playback Page -->
+<html lang="vi">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- Title will be updated dynamically -->
+  <title>Now Playing - Muzikra</title>
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="../css/style.css" />
+  <!-- Font Google Roboto -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
+  <!-- Font Awesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <!-- Inline styles specific to song page -->
+  <style>
+    /* Basic player layout */
+    .player-container {
+      max-width: 600px;
+      margin: 30px auto;
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
+
+    .player-info img {
+      width: 200px;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    }
+
+    .song-header {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 15px;
+      margin-bottom: 5px;
+    }
+    
+    #song-title {
+        margin: 0;
+        font-size: 1.8em;
+        color: #333;
+    }
+
+    #song-artist {
+      font-size: 1.1em;
+      color: #666;
+      margin-bottom: 20px;
+    }
+
+    /* Favorite Button */
+    .favorite-btn {
+      background: none;
+      border: none;
+      font-size: 24px;
+      color: #ccc; /* Default grey */
+      cursor: pointer;
+      transition: transform 0.2s ease, color 0.2s ease;
+      position: relative;
+      padding: 0 5px;
+    }
+
+    .favorite-btn:hover {
+      transform: scale(1.1);
+    }
+
+    .favorite-btn.active i {
+      font-weight: 900; /* Solid heart */
+      color: #ff5252; /* Red when active */
+    }
+    
+    .favorite-btn .tooltip {
+      position: absolute;
+      background-color: rgba(0, 0, 0, 0.7);
+      color: white;
+      padding: 5px 10px;
+      border-radius: 5px;
+      font-size: 12px;
+      bottom: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      white-space: nowrap;
+      visibility: hidden;
+      opacity: 0;
+      transition: opacity 0.3s, visibility 0.3s;
+      margin-bottom: 5px;
+      z-index: 10;
+    }
+
+    .favorite-btn:hover .tooltip {
+      visibility: visible;
+      opacity: 1;
+    }
+
+    /* Custom Player Controls */
+    .custom-player {
+      margin-top: 20px;
+    }
+
+    #seek-bar {
+      width: 100%;
+      margin-bottom: 15px;
+    }
+
+    .controls {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 20px;
+      margin-bottom: 15px;
+    }
+
+    .controls button {
+      background: none;
+      border: none;
+      font-size: 22px;
+      color: #555;
+      cursor: pointer;
+      transition: color 0.2s ease, transform 0.2s ease;
+      position: relative; /* For tooltip */
+      padding: 10px;
+    }
+    
+    .controls button#play-btn {
+        font-size: 30px; /* Make play button larger */
+        color: #06bb6f;
+    }
+
+    .controls button:hover {
+      color: #06bb6f;
+      transform: scale(1.1);
+    }
+    
+    .controls button .tooltip {
+      position: absolute;
+      background-color: rgba(0, 0, 0, 0.7);
+      color: white;
+      padding: 5px 10px;
+      border-radius: 5px;
+      font-size: 12px;
+      bottom: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      white-space: nowrap;
+      visibility: hidden;
+      opacity: 0;
+      transition: opacity 0.3s, visibility 0.3s;
+      margin-bottom: 5px;
+      z-index: 10;
+    }
+
+    .controls button:hover .tooltip {
+      visibility: visible;
+      opacity: 1;
+    }
+
+    .extras {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      color: #555;
+    }
+
+    #volume-bar {
+      width: 100px;
+    }
+
+    /* Error Message */
+    .error-message {
+      background-color: #fff3f3;
+      border-left: 4px solid #ff5252;
+      padding: 15px;
+      margin: 20px auto;
+      color: #333;
+      border-radius: 4px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      text-align: center;
+      max-width: 600px;
+    }
+    
+    .error-message h2 {
+      color: #ff5252;
+      margin-top: 0;
+    }
+    
+    .error-message p {
+      margin-bottom: 10px;
+    }
+    
+    .error-message a {
+      color: #06bb6f;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    
+    .error-message a:hover {
+      text-decoration: underline;
+    }
+    
+    /* Comment Section */
+    .comment-section {
+        max-width: 600px;
+        margin: 40px auto;
+        padding: 20px;
+        background-color: #f9f9f9;
+        border-radius: 8px;
+        text-align: left;
+    }
+    
+    .comment-section h2 {
+        margin-top: 0;
+        margin-bottom: 20px;
+        color: #333;
+        text-align: center;
+        border-bottom: 1px solid #eee;
+        padding-bottom: 10px;
+    }
+    
+    #comment-form {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 20px;
+    }
+    
+    #comment-input {
+        flex-grow: 1;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-size: 1em;
+    }
+    
+    #comment-form button {
+        padding: 10px 15px;
+        background-color: #06bb6f;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 1em;
+        transition: background-color 0.2s ease;
+    }
+    
+    #comment-form button:hover {
+        background-color: #05a360;
+    }
+    
+    #comments-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+    
+    #comments-list li {
+        background-color: #fff;
+        padding: 15px;
+        border-radius: 4px;
+        margin-bottom: 10px;
+        border: 1px solid #eee;
+    }
+    
+    #comments-list li p {
+        margin: 5px 0;
+    }
+    
+    #comments-list li strong {
+        color: #06bb6f;
+    }
+    
+    #comments-list li .comment-meta {
+        font-size: 0.85em;
+        color: #888;
+    }
+    
+  </style>
+</head>
+
+<body>
+
+  <!-- === NAVIGATION BAR === -->
+  <nav class="navbar">
+    <!-- Logo -->
+    <div class="logo">
+      <a href="../index.html" style="display: flex; align-items: center; color: inherit; text-decoration: none;">
+        <img src="../assets/icons/logoweb.png" alt="Muzikra Logo" style="height: 30px; margin-right: 8px; vertical-align: middle;">
+        <span>Muzikra</span>
+      </a>
+    </div>
+    <!-- Navigation Links -->
+    <ul class="nav-links">
+      <li><a href="../index.html">Trang chủ</a></li>
+      <!-- Updated Album Dropdown -->
+      <li class="dropdown-parent">
+        <a href="../index.html#album">Album</a>
+        <ul class="dropdown" id="album-dropdown-list">
+          <li><a href="album_1.html">Nhạc Trẻ Việt Hot</a></li>
+          <li><a href="album_2.html">Nhạc Buồn</a></li>
+          <li><a href="album_3.html">Nhạc Trịnh</a></li>
+          <li><a href="album_4.html">Nhạc Hoa Lời Việt</a></li>
+          <li><a href="album_5.html">Nhạc Hoa Thịnh Hành</a></li>
+          <li><a href="album_6.html">Nhạc US-UK</a></li>
+          <li><a href="album_7.html">Top Trending</a></li>
+          <li><a href="album_8.html">Lofi Chill</a></li>
+        </ul>
+      </li>
+      <li><a href="../index.html#newsongs">Bài hát mới</a></li>
+      <li><a href="../index.html#chart">Bảng xếp hạng</a></li>
+      <li><a href="../index.html#artists">Ca sĩ</a></li>
+      <!-- Account Dropdown -->
+      <li class="dropdown-parent">
+        <a href="#">Tài khoản</a>
+        <ul class="dropdown">
+          <li><a href="dangki.html">Đăng ký</a></li>
+          <li><a href="dangnhap.html">Đăng nhập</a></li>
+        </ul>
+      </li>
+    </ul>
+  </nav>
+  <!-- === END NAVIGATION BAR === -->
+
+  <!-- === MUSIC PLAYER CONTAINER === -->
+  <div class="player-container" id="player-container">
+    <!-- Player Info (Updated by JS) -->
+    <div class="player-info">
+      <img id="song-image" src="../assets/images/music.png" alt="Album Art" />
+      <div class="song-header">
+        <h1 id="song-title">Loading...</h1>
+        <button id="favorite-btn" class="favorite-btn">
+          <i class="far fa-heart"></i>
+          <span class="tooltip">Yêu thích</span>
+        </button>
+      </div>
+      <p id="song-artist">Artist</p>
+    </div>
+
+    <!-- Custom Player Controls -->
+    <div class="custom-player">
+      <input type="range" id="seek-bar" class="progress" value="0" />
+      <div class="controls">
+        <button id="prev-btn">
+          <i class="fa fa-step-backward"></i>
+          <span class="tooltip">Bài trước</span>
+        </button>
+        <button id="play-btn">
+          <i class="fa fa-play"></i>
+          <span class="tooltip">Phát</span>
+        </button>
+        <button id="next-btn">
+          <i class="fa fa-step-forward"></i>
+          <span class="tooltip">Bài tiếp theo</span>
+        </button>
+      </div>
+      <div class="extras">
+        <i class="fa fa-volume-up"></i>
+        <input type="range" id="volume-bar" class="progress" min="0" max="1" step="0.01" value="1" />
+      </div>
+      <!-- Audio Element (Source updated by JS) -->
+      <audio id="audio-player" preload="metadata"></audio>
+    </div>
+  </div>
+  <!-- === END MUSIC PLAYER CONTAINER === -->
+  
+  <!-- === ERROR MESSAGE CONTAINER (Hidden by default) === -->
+  <div class="error-message" id="error-message" style="display: none;">
+    <h2>Không tìm thấy bài hát!</h2>
+    <p>Bài hát bạn đang tìm kiếm không tồn tại hoặc URL không đúng.</p>
+    <p><a href="../index.html">Quay lại trang chủ</a></p>
+  </div>
+  <!-- === END ERROR MESSAGE CONTAINER === -->
+
+  <!-- === COMMENT SECTION === -->
+  <section class="comment-section" id="comment-section">
+    <h2>Bình luận</h2>
+    <!-- Comment Input Form -->
+    <form id="comment-form">
+      <input type="text" id="comment-input" placeholder="Viết bình luận của bạn..." required>
+      <button type="submit">Gửi</button>
+    </form>
+    <!-- Comments List -->
+    <ul id="comments-list">
+      <!-- Sample Comments -->
+      <li>
+        <p><strong>User123</strong> <span class="comment-meta">(2 hours ago)</span></p>
+        <p>Bài hát này hay quá!</p>
+      </li>
+      <li>
+        <p><strong>MusicLover</strong> <span class="comment-meta">(1 day ago)</span></p>
+        <p>Giai điệu bắt tai thật sự.</p>
+      </li>
+      <!-- New comments will be added here by JS -->
+    </ul>
+  </section>
+  <!-- === END COMMENT SECTION === -->
+
+  <!-- === FOOTER SECTION === -->
+  <footer class="footer">
+    <div class="container">
+      <!-- Footer Logo -->
+      <div class="footer-logo">
+        <img src="../assets/icons/logoweb.png" alt="Muzikra Logo">
+      </div>
+      <!-- Footer Links -->
+      <ul class="footer-links">
+        <li><a href="gioithieu.html">Giới thiệu</a></li>
+        <li><a href="chinhsachbaomat.html">Chính sách bảo mật</a></li>
+        <li><a href="dieukhoan.html">Điều khoản sử dụng</a></li>
+        <li><a href="hotro.html">Hỗ trợ</a></li>
+      </ul>
+      <!-- Social Media Links -->
+      <div class="social-links">
+        <a href="#" target="_blank" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+        <a href="#" target="_blank" title="Twitter"><i class="fab fa-twitter"></i></a>
+        <a href="#" target="_blank" title="Instagram"><i class="fab fa-instagram"></i></a>
+        <a href="#" target="_blank" title="YouTube"><i class="fab fa-youtube"></i></a>
+      </div>
+      <!-- Copyright Info -->
+      <div class="footer-info">
+        <p>&copy; 2025 Muzikra - All Rights Reserved</p>
+      </div>
+    </div>
+  </footer>
+  <!-- === END FOOTER SECTION === -->
+
+  <!-- JavaScript -->
+  <script>
+  /**
+   * Static Song Data (Simplified - should match data used in script.js for search)
+   * This structure helps find song details based on URL parameters.
+   */
+  const songDatabase = {
+    // Album 1: Nhạc Trẻ Việt Hot
+    "album_1": {
+      "3107": { title: "3107", artist: "W/N, Nâu, Dươngg", audio: "../assets/music/3107.mp3", image: "../assets/images/3107.png" },
+      "em-gai-mua": { title: "Em Gái Mưa", artist: "Hương Tràm", audio: "../assets/music/EmGaiMua.mp3", image: "../assets/images/EmGaiMua.png" },
+      "em-gi-oi": { title: "Em Gì Ơi", artist: "Jack, K-ICM", audio: "../assets/music/EmGiOi.mp3", image: "../assets/images/EmGiOi.png" },
+      "co-hen-voi-thanh-xuan": { title: "Có Hẹn Với Thanh Xuân", artist: "MONSTAR", audio: "../assets/music/cohenvoithanhxuan.mp3", image: "../assets/images/cohenvoithanhxuan.png" },
+      "nang-tho": { title: "Nàng Thơ", artist: "Hoàng Dũng", audio: "../assets/music/NangTho.mp3", image: "../assets/images/NangTho.png" },
+      "sau-lung-anh-co-ai-kia": { title: "Sau Lưng Anh Có Ai Kìa", artist: "Thiều Bảo Trâm", audio: "../assets/music/SauLungAnhCoAiKiaWinter.mp3", image: "../assets/images/SauLungAnhCoAiKia.png" },
+      "gui-anh-xa-nho": { title: "Gửi Anh Xa Nhớ", artist: "Bích Phương", audio: "../assets/music/guianhxanho.mp3", image: "../assets/images/guianhxanho.png" }
+    },
+    // Album 2: Nhạc Buồn
+    "album_2": {
+      "khong-the-cung-nhau-suot-kiep": { title: "Không Thể Cùng Nhau Suốt Kiếp", artist: "ERIK, Hòa Minzy", audio: "../assets/music/KhongTheCungNhauSuotKiep.mp3", image: "../assets/images/KhongTheCungNhauSuotKiep.png" },
+      "buc-tranh-tu-nuoc-mat": { title: "Bức Tranh Từ Nước Mắt", artist: "Mr. Siro", audio: "../assets/music/BucTranhTuNuocMat.mp3", image: "../assets/images/BucTranhTuNuocMat.png" },
+      "chiec-khan-gio-am": { title: "Chiếc Khăn Gió Ấm", artist: "Thành Trung", audio: "../assets/music/ChiecKhanGioAm-ThanhTrung.mp3", image: "../assets/images/ChiecKhanGioAm.png" },
+      "co-chang-trai-viet-len-cay": { title: "Có Chàng Trai Viết Lên Cây", artist: "Phan Mạnh Quỳnh", audio: "../assets/music/CoChangTraiVietLenCay.mp3", image: "../assets/images/CoChangTraiVietLenCay.png" },
+      "gac-lai-au-lo": { title: "Gác Lại Âu Lo", artist: "Da LAB, Miu Lê", audio: "../assets/music/GacLaiAulo.mp3", image: "../assets/images/GacLaiAuLo.png" },
+      "gui-anh-xa-nho": { title: "Gửi Anh Xa Nhớ", artist: "Bích Phương", audio: "../assets/music/guianhxanho.mp3", image: "../assets/images/guianhxanho.png" } // Duplicate song
+    },
+    // Album 3: Nhạc Trịnh
+    "album_3": {
+      "ao-lua-ha-dong": { title: "Áo Lụa Hà Đông", artist: "Hoài Lâm", audio: "../assets/music/AoLuaHaDong-Hoailam.mp3", image: "../assets/images/AoLuaHaDong.png" },
+      "bien-nho": { title: "Biển Nhớ", artist: "Hồng Nhung", audio: "../assets/music/BienNho-HongNhung.mp3", image: "../assets/images/BienNho.png" },
+      "diem-xua": { title: "Diễm Xưa", artist: "Lệ Quyên", audio: "../assets/music/DiemXua-LeQuyen.mp3", image: "../assets/images/DiemXua.png" },
+      "cat-bui": { title: "Cát Bụi", artist: "Quang Dũng, Hồng Nhung", audio: "../assets/music/CatBui-QuangDung-HongNhung.mp3", image: "../assets/images/CatBui.png" },
+      "thanh-pho-buon": { title: "Thành Phố Buồn", artist: "Đan Trường", audio: "../assets/music/ThanhPhoBuon-DanTruong.mp3", image: "../assets/images/ThanhPhoBuon.png" },
+      "rieng-mot-goc-troi": { title: "Riêng Một Góc Trời", artist: "Tuấn Ngọc, Hoàng Dũng", audio: "../assets/music/RiengMotGocTroi-TuanNgoc-HoangDung.mp3", image: "../assets/images/RiengMotGocTroi.png" }
+    },
+    // Album 4: Nhạc Hoa Lời Việt
+    "album_4": {
+        "dai-thien-bong": { title: "Đại Thiên Bồng", artist: "Lý Viên Kiệt", audio: "../assets/music/DaiThienBong-LyVienKiet.mp3", image: "../assets/images/DaiThienBong.png" },
+        "danh-mat-em": { title: "Đánh Mất Em", artist: "Tỉnh Lung", audio: "../assets/music/DanhMatEm-TinhLung.mp3", image: "../assets/images/DanhMatEm.png" },
+        "dong-mien": { title: "Đồng Miên", artist: "K.D", audio: "../assets/music/DongMien-K.D.mp3", image: "../assets/images/DongMien.png" },
+        "mot-duong-no-hoa": { title: "Một Đường Nở Hoa", artist: "Châu Thâm", audio: "../assets/music/MotDuongNoHoa-ChauTham.mp3", image: "../assets/images/MotDuongNoHoa.png" },
+        "su-thanh-hoa": { title: "Sứ Thanh Hoa", artist: "Châu Kiệt Luân", audio: "../assets/music/SuThanhHoa-ChauKietLuan.mp3", image: "../assets/images/SuThanhHoa.png" },
+        "thoi-khong-sai-lech": { title: "Thời Không Sai Lệch", artist: "Ngài Thần", audio: "../assets/music/ThoiKhongSaiLech-NgaiThan.mp3", image: "../assets/images/ThoiKhongSaiLech.png" },
+        "nguoi-ke-nhiem": { title: "Người Kế Nhiệm", artist: "Nhâm Nhiên", audio: "../assets/music/NguoiKeNhiem-NhamNhien.mp3", image: "../assets/images/NguoiKeNhiem.png" },
+        "phi-dieu-va-ve-sau": { title: "Phi Điểu Và Ve Sầu", artist: "Nhâm Nhiên", audio: "../assets/music/PhiDieuVaVeSau-NhamNhien.mp3", image: "../assets/images/PhiDieuVaVeSau.png" },
+        "yen-vo-hiet": { title: "Yên Vô Hiết", artist: "Tưởng Tuyết Nhi", audio: "../assets/music/YenVoHiet-TuongTuyetNhi.mp3", image: "../assets/images/YenVoHiet.png" }
+      },
+    // Album 5: Nhạc Hoa Thịnh Hành
+    "album_5": {
+        "super-idol": { title: "Super Idol", artist: "A Tú", audio: "../assets/music/Superidol-ATu.mp3", image: "../assets/images/SuperIdol.png" },
+        "bach-nguyet-quang-va-not-chu-sa": { title: "Bạch Nguyệt Quang và Nốt Chu Sa (Cover)", artist: "K.D", audio: "../assets/music/BachNguyetQuangVaNotChuSaCover-KD.mp3", image: "../assets/images/BachNguyetQuangVaNotChuSa.png" },
+        "dai-thien-bong": { title: "Đại Thiên Bồng", artist: "Lý Viên Kiệt", audio: "../assets/music/DaiThienBong-LyVienKiet.mp3", image: "../assets/images/DaiThienBong.png" },
+        "danh-mat-em": { title: "Đánh Mất Em", artist: "Tỉnh Lung", audio: "../assets/music/DanhMatEm-TinhLung.mp3", image: "../assets/images/DanhMatEm.png" },
+        "dong-mien": { title: "Đồng Miên", artist: "K.D", audio: "../assets/music/DongMien-K.D.mp3", image: "../assets/images/DongMien.png" },
+        "mot-duong-no-hoa": { title: "Một Đường Nở Hoa", artist: "Châu Thâm", audio: "../assets/music/MotDuongNoHoa-ChauTham.mp3", image: "../assets/images/MotDuongNoHoa.png" }
+      },
+    // Album 6: Nhạc US-UK
+    "album_6": {
+        "shape-of-you": { title: "Shape of You", artist: "Ed Sheeran", audio: "../assets/music/ShapeOfYou.mp3", image: "../assets/images/ShapeOfYou.png" },
+        "despacito": { title: "Despacito", artist: "Justin Bieber, Luis Fonsi", audio: "../assets/music/Despacito.mp3", image: "../assets/images/Despacito.png" },
+        "sugar": { title: "Sugar", artist: "Maroon 5", audio: "../assets/music/Sugar.mp3", image: "../assets/images/Sugar.png" },
+        "see-you-again": { title: "See You Again", artist: "Wiz Khalifa, Charlie Puth", audio: "../assets/music/SeeYouAgain.mp3", image: "../assets/images/SeeYouAgain.png" }
+      },
+    // Album 7: Top Trending
+    "album_7": {
+        "chay-ngay-di": { title: "Chạy Ngay Đi", artist: "Sơn Tùng M-TP", audio: "../assets/music/ChayNgayDi.mp3", image: "../assets/images/ChayNgayDi.png" },
+        "hay-trao-cho-anh": { title: "Hãy Trao Cho Anh", artist: "Sơn Tùng M-TP, Snoop Dogg", audio: "../assets/music/HayTraoChoAnh.mp3", image: "../assets/images/HayTraoChoAnh.png" },
+        "song-gio": { title: "Sóng Gió", artist: "Jack, K-ICM", audio: "../assets/music/SongGio.mp3", image: "../assets/images/SongGio.png" },
+        "baby-shark-dance": { title: "Baby Shark Dance", artist: "Pinkfong", audio: "../assets/music/BabySharkDance.mp3", image: "../assets/images/BabyShark.png" },
+        "gangnam-style": { title: "Gangnam Style", artist: "PSY", audio: "../assets/music/GangnamStyle.mp3", image: "../assets/images/GangnamStyle.png" }
+      },
+    // Album 8: Lofi Chill
+    "album_8": {
+        "3107-lofi": { title: "3107 (Lofi Version)", artist: "W/N", audio: "../assets/music/3107.mp3", image: "../assets/images/3107.png" }, // Note: Using same audio as non-lofi for example
+        "dong-mien": { title: "Đồng Miên", artist: "K.D", audio: "../assets/music/DongMien-K.D.mp3", image: "../assets/images/DongMien.png" },
+        "su-thanh-hoa": { title: "Sứ Thanh Hoa", artist: "Châu Kiệt Luân", audio: "../assets/music/SuThanhHoa-ChauKietLuan.mp3", image: "../assets/images/SuThanhHoa.png" },
+        "thoi-khong-sai-lech": { title: "Thời Không Sai Lệch", artist: "Ngài Thần", audio: "../assets/music/ThoiKhongSaiLech-NgaiThan.mp3", image: "../assets/images/ThoiKhongSaiLech.png" },
+        "nguoi-ke-nhiem": { title: "Người Kế Nhiệm", artist: "Nhâm Nhiên", audio: "../assets/music/NguoiKeNhiem-NhamNhien.mp3", image: "../assets/images/NguoiKeNhiem.png" },
+        "phi-dieu-va-ve-sau": { title: "Phi Điểu Và Ve Sầu", artist: "Nhâm Nhiên", audio: "../assets/music/PhiDieuVaVeSau-NhamNhien.mp3", image: "../assets/images/PhiDieuVaVeSau.png" }
+      }
+  };
+
+  /**
+   * Load Song Function
+   * Finds song data based on URL parameters and updates the player.
+   */
+  function loadSong() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const albumId = urlParams.get("album");
+    const songId = urlParams.get("song");
+
+    const songTitleEl = document.getElementById("song-title");
+    const songArtistEl = document.getElementById("song-artist");
+    const songImageEl = document.getElementById("song-image");
+    const audioPlayer = document.getElementById("audio-player");
+    const playerContainer = document.getElementById("player-container");
+    const errorMessage = document.getElementById("error-message");
+    const commentSection = document.getElementById("comment-section");
+
+    if (!albumId || !songId || !songDatabase[albumId] || !songDatabase[albumId][songId]) {
+      console.error("Song not found or invalid URL parameters.");
+      if (playerContainer) playerContainer.style.display = "none";
+      if (commentSection) commentSection.style.display = "none";
+      if (errorMessage) errorMessage.style.display = "block";
+      document.title = "Error - Muzikra";
+      return; // Stop execution if song not found
+    }
+
+    // Song found, hide error and show player/comments
+    if (playerContainer) playerContainer.style.display = "block";
+    if (commentSection) commentSection.style.display = "block"; // Ensure comment section is visible
+    if (errorMessage) errorMessage.style.display = "none";
+
+    const songData = songDatabase[albumId][songId];
+
+    // Update player elements
+    songTitleEl.textContent = songData.title;
+    songArtistEl.textContent = songData.artist;
+    songImageEl.src = songData.image;
+    songImageEl.alt = songData.title; // Set alt text
+    audioPlayer.src = songData.audio;
+    document.title = `Now Playing: ${songData.title} - Muzikra`;
+
+    // Reset player state
+    audioPlayer.currentTime = 0;
+    const playBtnIcon = document.querySelector("#play-btn i");
+    if (playBtnIcon) {
+        playBtnIcon.classList.remove("fa-pause");
+        playBtnIcon.classList.add("fa-play");
+    }
+    document.getElementById("seek-bar").value = 0;
+    
+    // Note: Prev/Next button logic would need the full album song list 
+    // and current index, which is complex without more context here.
+    // They are currently disabled in the player logic below.
+  }
+
+  /**
+   * Favorite Button Logic
+   */
+  function setupFavoriteButton() {
+    const favoriteBtn = document.getElementById("favorite-btn");
+    if (favoriteBtn) {
+      favoriteBtn.addEventListener("click", () => {
+        favoriteBtn.classList.toggle("active");
+        const icon = favoriteBtn.querySelector("i");
+        const tooltip = favoriteBtn.querySelector(".tooltip");
+        if (favoriteBtn.classList.contains("active")) {
+          icon.classList.remove("far");
+          icon.classList.add("fas");
+          tooltip.textContent = "Đã yêu thích";
+          // Add logic to save favorite status (e.g., localStorage) if needed
+        } else {
+          icon.classList.remove("fas");
+          icon.classList.add("far");
+          tooltip.textContent = "Yêu thích";
+          // Add logic to remove favorite status if needed
+        }
+      });
+    }
+  }
+
+  /**
+   * Player Controls Logic
+   */
+  // ...existing code...
+function setupPlayerControls() {
+    const audioPlayer = document.getElementById("audio-player");
+    const playBtn = document.getElementById("play-btn");
+    const prevBtn = document.getElementById("prev-btn");
+    const nextBtn = document.getElementById("next-btn");
+    const volumeBar = document.getElementById("volume-bar");
+    const seekBar = document.getElementById("seek-bar");
+
+    if (!audioPlayer || !playBtn || !seekBar) return; // Exit if essential controls missing
+
+    // Play/Pause
+    playBtn.addEventListener("click", () => {
+      if (audioPlayer.paused || audioPlayer.ended) {
+        audioPlayer.play().catch(e => console.error("Error playing audio:", e));
+      } else {
+        audioPlayer.pause();
+      }
+    });
+
+    audioPlayer.addEventListener("play", () => {
+      const icon = playBtn.querySelector("i");
+      if (icon) {
+          icon.classList.remove("fa-play");
+          icon.classList.add("fa-pause");
+      }
+      playBtn.querySelector(".tooltip").textContent = "Tạm dừng";
+    });
+
+    audioPlayer.addEventListener("pause", () => {
+      const icon = playBtn.querySelector("i");
+      if (icon) {
+          icon.classList.remove("fa-pause");
+          icon.classList.add("fa-play");
+      }
+      playBtn.querySelector(".tooltip").textContent = "Phát";
+    });
+
+    // Seek Bar Update
+    audioPlayer.addEventListener("timeupdate", () => {
+      if (isFinite(audioPlayer.currentTime) && isFinite(audioPlayer.duration)) {
+        seekBar.value = audioPlayer.currentTime;
+        seekBar.max = audioPlayer.duration;
+      } else {
+        seekBar.value = 0;
+      }
+    });
+
+    audioPlayer.addEventListener("durationchange", () => {
+         if (isFinite(audioPlayer.duration)) {
+             seekBar.max = audioPlayer.duration;
+         } else {
+             seekBar.max = 0;
+         }
+    });
+
+    seekBar.addEventListener("input", () => {
+      if (isFinite(seekBar.value)) {
+         audioPlayer.currentTime = seekBar.value;
+      }
+    });
+
+    // Volume Control
+    if (volumeBar) {
+      volumeBar.addEventListener("input", () => {
+        audioPlayer.volume = volumeBar.value;
+      });
+      audioPlayer.volume = volumeBar.value;
+    }
+
+    // --- Prev/Next logic ---
+    const urlParams = new URLSearchParams(window.location.search);
+    const albumId = urlParams.get("album");
+    const songId = urlParams.get("song");
+    if (albumId && songId && songDatabase[albumId]) {
+        const songKeys = Object.keys(songDatabase[albumId]);
+        const currentIndex = songKeys.indexOf(songId);
+
+        // Prev
+        if (prevBtn) {
+            prevBtn.disabled = currentIndex <= 0;
+            prevBtn.style.opacity = prevBtn.disabled ? 0.5 : 1;
+            prevBtn.style.cursor = prevBtn.disabled ? "not-allowed" : "pointer";
+            prevBtn.onclick = () => {
+                if (currentIndex > 0) {
+                    const prevSong = songKeys[currentIndex - 1];
+                    window.location.search = `?album=${albumId}&song=${prevSong}`;
+                }
+            };
+        }
+        // Next
+        if (nextBtn) {
+            nextBtn.disabled = currentIndex >= songKeys.length - 1;
+            nextBtn.style.opacity = nextBtn.disabled ? 0.5 : 1;
+            nextBtn.style.cursor = nextBtn.disabled ? "not-allowed" : "pointer";
+            nextBtn.onclick = () => {
+                if (currentIndex < songKeys.length - 1) {
+                    const nextSong = songKeys[currentIndex + 1];
+                    window.location.search = `?album=${albumId}&song=${nextSong}`;
+                }
+            };
+        }
+    }
+
+}
+
+  
+  /**
+   * Comment Section Logic
+   */
+  function setupCommentSection() {
+      const commentForm = document.getElementById("comment-form");
+      const commentInput = document.getElementById("comment-input");
+      const commentsList = document.getElementById("comments-list");
+  
+      if (commentForm && commentInput && commentsList) {
+          commentForm.addEventListener("submit", (e) => {
+              e.preventDefault();
+              const commentText = commentInput.value.trim();
+              if (commentText) {
+                  // Add the new comment to the list (basic example)
+                  const newComment = document.createElement("li");
+                  const now = new Date();
+                  const timestamp = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+                  
+                  // Basic sanitization to prevent HTML injection
+                  const sanitizedText = commentText.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+                  
+                  newComment.innerHTML = `
+                      <p><strong>User</strong> <span class="comment-meta">(${timestamp})</span></p>
+                      <p>${sanitizedText}</p> 
+                  `; 
+                  commentsList.appendChild(newComment);
+                  commentInput.value = ""; // Clear input
+                  console.log("Comment added:", commentText);
+              } else {
+                  alert("Vui lòng nhập bình luận.");
+              }
+          });
+      }
+  }
+
+  /**
+   * Initialization on DOMContentLoaded
+   */
+  document.addEventListener("DOMContentLoaded", () => {
+    loadSong(); // Load song data first
+    setupFavoriteButton();
+    setupPlayerControls();
+    setupCommentSection();
+    
+    // Hamburger Menu Setup (Copied from script.js for standalone functionality if needed)
+    const menuToggle = document.getElementById("menu-toggle");
+    const navLinks = document.querySelector(".nav-links");
+    if (menuToggle && navLinks) {
+      menuToggle.addEventListener("click", () => {
+        navLinks.classList.toggle("active");
+        const icon = menuToggle.querySelector("i");
+        if (navLinks.classList.contains("active")) {
+          icon.classList.remove("fa-bars");
+          icon.classList.add("fa-times");
+        } else {
+          icon.classList.remove("fa-times");
+          icon.classList.add("fa-bars");
+        }
+      });
+      
+      // Close menu if clicking outside
+      document.addEventListener("click", (e) => {
+          if (navLinks.classList.contains("active") && !navLinks.contains(e.target) && !menuToggle.contains(e.target)) {
+              navLinks.classList.remove("active");
+              const icon = menuToggle.querySelector("i");
+              icon.classList.remove("fa-times");
+              icon.classList.add("fa-bars");
+          }
+      });
+    }
+    
+    // Mobile Dropdown Setup (Copied from script.js)
+    const dropdownParents = document.querySelectorAll(".nav-links .dropdown-parent");
+    dropdownParents.forEach(parent => {
+      const link = parent.querySelector("a");
+      if (link) {
+          link.addEventListener("click", (e) => {
+              if (window.getComputedStyle(menuToggle).display !== "none") {
+                  if (link.getAttribute("href") === "#") {
+                      e.preventDefault();
+                  }
+                  parent.classList.toggle("open");
+                  dropdownParents.forEach(otherParent => {
+                      if (otherParent !== parent && otherParent.classList.contains("open")) {
+                          otherParent.classList.remove("open");
+                      }
+                  });
+              }
+          });
+      }
+    });
+
+  });
+
+  document.addEventListener("DOMContentLoaded", function() {
+  const audioPlayer = document.getElementById("audio-player");
+  const seekBar = document.getElementById("seek-bar");
+  const volumeBar = document.getElementById("volume-bar");
+
+  function updateSeekBarProgress() {
+    if (seekBar && seekBar.max > 0) {
+      const percent = (seekBar.value / seekBar.max) * 100;
+      seekBar.style.setProperty('--progress', percent + '%');
+    }
+  }
+  function updateVolumeBarProgress() {
+    if (volumeBar) {
+      const percent = volumeBar.value * 100;
+      volumeBar.style.setProperty('--progress', percent + '%');
+    }
+  }
+
+  if (audioPlayer && seekBar) {
+    audioPlayer.addEventListener("timeupdate", function() {
+      seekBar.value = audioPlayer.currentTime;
+      seekBar.max = audioPlayer.duration || 1;
+      updateSeekBarProgress();
+    });
+    audioPlayer.addEventListener("durationchange", function() {
+      seekBar.max = audioPlayer.duration || 1;
+      updateSeekBarProgress();
+    });
+    seekBar.addEventListener("input", function() {
+      audioPlayer.currentTime = seekBar.value;
+      updateSeekBarProgress();
+    });
+    updateSeekBarProgress();
+  }
+
+  if (volumeBar && audioPlayer) {
+    volumeBar.addEventListener("input", function() {
+      audioPlayer.volume = volumeBar.value;
+      updateVolumeBarProgress();
+    });
+    updateVolumeBarProgress();
+  }
+});
+
+  </script>
+
+</body>
+
+</html>

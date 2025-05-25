@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<!-- Album Page: Lofi Chill -->
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Updated title to reflect album name -->
+  <title>Album: Lofi Chill - Muzikra</title> 
+  <!-- Link to the main stylesheet -->
+  <link rel="stylesheet" href="../css/style.css">
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+  <!-- === NAVIGATION BAR === -->
+  <nav class="navbar">
+    <!-- Logo -->
+    <div class="logo">
+      <a href="../index.html" style="display: flex; align-items: center; color: inherit; text-decoration: none;">
+        <img src="../assets/icons/logoweb.png" alt="Muzikra Logo" style="height: 30px; margin-right: 8px; vertical-align: middle;">
+        <span>Muzikra</span>
+      </a>
+    </div>
+    <!-- Navigation Links -->
+    <ul class="nav-links">
+      <li><a href="../index.html">Trang chủ</a></li>
+      <!-- Album Dropdown (to be updated later) -->
+      <li class="dropdown-parent">
+        <a href="../index.html#album">Album</a>
+        <ul class="dropdown" id="album-dropdown-list">
+          <!-- Album names will be populated here later -->
+          <li><a href="album_1.html">Nhạc Trẻ Việt Hot</a></li>
+          <li><a href="album_2.html">Nhạc Buồn</a></li>
+          <li><a href="album_3.html">Nhạc Trịnh</a></li>
+          <li><a href="album_4.html">Nhạc Hoa Lời Việt</a></li>
+          <li><a href="album_5.html">Nhạc Hoa Thịnh Hành</a></li>
+          <li><a href="album_6.html">Nhạc US-UK</a></li>
+          <li><a href="album_7.html">Top Trending</a></li>
+          <li><a href="album_8.html">Lofi Chill</a></li>
+        </ul>
+      </li>
+      <li><a href="../index.html#newsongs">Bài hát mới</a></li>
+      <li><a href="../index.html#chart">Bảng xếp hạng</a></li>
+      <li><a href="../index.html#artists">Ca sĩ</a></li>
+      <!-- Account Dropdown -->
+      <li class="dropdown-parent">
+        <a href="#">Tài khoản</a>
+        <ul class="dropdown">
+          <li><a href="dangki.html">Đăng ký</a></li>
+          <li><a href="dangnhap.html">Đăng nhập</a></li>
+        </ul>
+      </li>
+    </ul>
+  </nav>
+  <!-- === END NAVIGATION BAR === -->
+
+  <!-- Main Content Area -->
+  <main class="container">
+    <!-- Album Title -->
+    <section class="section">
+      <!-- Updated Album Title -->
+      <h1 id="album-page-title">Lofi Chill</h1> 
+
+      <!-- Static Song List for this Album -->
+      <ol class="album-song-list">
+        <!-- Song 1: 3107 (Lofi Version) -->
+        <li class="album-song-item">
+          <a href="song.html?album=album_8&song=3107-lofi" class="song-link">
+            <span class="rank">1</span>
+            <img src="../assets/images/3107.png" alt="3107 (Lofi Version)">
+            <div class="song-info">
+              <span class="song-title">3107 (Lofi Version)</span>
+              <span class="song-artist">W/N</span>
+            </div>
+          </a>
+        </li>
+        <!-- Song 2: Đồng Miên -->
+        <li class="album-song-item">
+          <a href="song.html?album=album_8&song=dong-mien" class="song-link">
+            <span class="rank">2</span>
+            <img src="../assets/images/DongMien.png" alt="Đồng Miên">
+            <div class="song-info">
+              <span class="song-title">Đồng Miên</span>
+              <span class="song-artist">K.D</span>
+            </div>
+          </a>
+        </li>
+        <!-- Song 3: Sứ Thanh Hoa -->
+        <li class="album-song-item">
+          <a href="song.html?album=album_8&song=su-thanh-hoa" class="song-link">
+            <span class="rank">3</span>
+            <img src="../assets/images/SuThanhHoa.png" alt="Sứ Thanh Hoa">
+            <div class="song-info">
+              <span class="song-title">Sứ Thanh Hoa</span>
+              <span class="song-artist">Châu Kiệt Luân</span>
+            </div>
+          </a>
+        </li>
+        <!-- Song 4: Thời Không Sai Lệch -->
+        <li class="album-song-item">
+          <a href="song.html?album=album_8&song=thoi-khong-sai-lech" class="song-link">
+            <span class="rank">4</span>
+            <img src="../assets/images/ThoiKhongSaiLech.png" alt="Thời Không Sai Lệch">
+            <div class="song-info">
+              <span class="song-title">Thời Không Sai Lệch</span>
+              <span class="song-artist">Ngài Thần</span>
+            </div>
+          </a>
+        </li>
+        <!-- Song 5: Người Kế Nhiệm -->
+        <li class="album-song-item">
+          <a href="song.html?album=album_8&song=nguoi-ke-nhiem" class="song-link">
+            <span class="rank">5</span>
+            <img src="../assets/images/NguoiKeNhiem.png" alt="Người Kế Nhiệm">
+            <div class="song-info">
+              <span class="song-title">Người Kế Nhiệm</span>
+              <span class="song-artist">Nhâm Nhiên</span>
+            </div>
+          </a>
+        </li>
+        <!-- Song 6: Phi Điểu Và Ve Sầu -->
+        <li class="album-song-item">
+          <a href="song.html?album=album_8&song=phi-dieu-va-ve-sau" class="song-link">
+            <span class="rank">6</span>
+            <img src="../assets/images/PhiDieuVaVeSau.png" alt="Phi Điểu Và Ve Sầu">
+            <div class="song-info">
+              <span class="song-title">Phi Điểu Và Ve Sầu</span>
+              <span class="song-artist">Nhâm Nhiên</span>
+            </div>
+          </a>
+        </li>
+        <!-- Add more songs as needed -->
+      </ol>
+    </section>
+  </main>
+  <!-- === END MAIN CONTENT AREA === -->
+
+  <!-- === FOOTER SECTION === -->
+  <footer class="footer">
+    <div class="container">
+      <!-- Footer Logo -->
+      <div class="footer-logo">
+        <img src="../assets/icons/logoweb.png" alt="Muzikra Logo">
+      </div>
+      <!-- Footer Links -->
+      <ul class="footer-links">
+        <li><a href="gioithieu.html">Giới thiệu</a></li>
+        <li><a href="chinhsachbaomat.html">Chính sách bảo mật</a></li>
+        <li><a href="dieukhoan.html">Điều khoản sử dụng</a></li>
+        <li><a href="hotro.html">Hỗ trợ</a></li>
+      </ul>
+      <!-- Social Media Links -->
+      <div class="social-links">
+        <a href="#" target="_blank" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+        <a href="#" target="_blank" title="Twitter"><i class="fab fa-twitter"></i></a>
+        <a href="#" target="_blank" title="Instagram"><i class="fab fa-instagram"></i></a>
+        <a href="#" target="_blank" title="YouTube"><i class="fab fa-youtube"></i></a>
+      </div>
+      <!-- Copyright Info -->
+      <div class="footer-info">
+        <p>&copy; 2025 Muzikra - All Rights Reserved</p>
+      </div>
+    </div>
+  </footer>
+  <!-- === END FOOTER SECTION === -->
+
+  <!-- Link to JavaScript file -->
+  <script src="../js/script.js"></script>
+  <!-- Removed the script block that dynamically added click listeners -->
+
+</body>
+</html>
