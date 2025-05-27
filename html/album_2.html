@@ -12,6 +12,114 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+<style>
+.album-song-list {
+  list-style: none;
+  padding: 0;
+  margin: 32px auto 0 auto;
+  max-width: 900px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.album-song-item {
+  display: flex;
+  align-items: center;
+  background: #cbf4fa;
+  border-radius: 12px;
+  padding: 14px 22px;
+  font-size: 18px;
+  box-shadow: 0 2px 8px rgba(6, 187, 111, 0.08);
+  transition: transform 0.22s, box-shadow 0.22s, background 0.22s;
+}
+
+.album-song-item:hover {
+  transform: scale(1.035);
+  box-shadow: 0 4px 18px rgba(6, 187, 111, 0.18);
+  background: #b2f2e5;
+}
+
+.song-link {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  color: inherit;
+  text-decoration: none;
+}
+
+.rank {
+  font-size: 20px;
+  font-weight: bold;
+  color: #06bb6f;
+  margin-right: 16px;
+  min-width: 28px;
+  text-align: center;
+}
+
+.album-song-item img {
+  width: 62px;
+  height: 62px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-right: 16px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+  background: #fff;
+}
+
+.song-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background: none;
+  color: inherit;
+  padding: 0;
+  font-family: 'Roboto', sans-serif;
+  text-align: left;
+  white-space: normal;
+  word-break: break-word;
+}
+
+.song-title {
+  font-size: 17px;
+  font-weight: bold;
+  color: #0a4d2c;
+  margin-bottom: 3px;
+}
+
+.song-artist {
+  font-size: 15px;
+  color: #2e6e4c;
+  font-weight: 500;
+}
+
+/* Responsive cho mobile */
+@media (max-width: 768px) {
+  .album-song-list {
+    gap: 12px;
+  }
+  .album-song-item {
+    padding: 10px 8px;
+    font-size: 16px;
+  }
+  .album-song-item img {
+    width: 44px;
+    height: 44px;
+    margin-right: 10px;
+  }
+  .song-title {
+    font-size: 15px;
+  }
+  .song-artist {
+    font-size: 13px;
+  }
+  .rank {
+    font-size: 16px;
+    min-width: 20px;
+    margin-right: 8px;
+  }
+}
+  </style>
 </head>
 
 <body>

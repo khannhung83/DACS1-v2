@@ -665,6 +665,7 @@ input[type="range"].progress::-ms-thumb {
   align-items: center;
   width: 100%;
   margin-top: 20px;
+  color:#06bb6f;
 }
 
 
