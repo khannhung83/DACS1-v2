@@ -69,17 +69,16 @@ const allSongsData = [
   { title: "3107", artist: "W/N, Nâu, Dươngg", albumId: "album_1", songId: "3107", imagePath: "assets/images/3107.png" },
   { title: "Em Gái Mưa", artist: "Hương Tràm", albumId: "album_1", songId: "em-gai-mua", imagePath: "assets/images/EmGaiMua.png" },
   { title: "Em Gì Ơi", artist: "Jack, K-ICM", albumId: "album_1", songId: "em-gi-oi", imagePath: "assets/images/EmGiOi.png" },
-  { title: "Có Hẹn Với Thanh Xuân", artist: "MONSTAR", albumId: "album_1", songId: "co-hen-voi-thanh-xuan", imagePath: "assets/images/cohenvoithanhxuan.png" },
+  { title: "Có Hẹn Với Thanh Xuân", artist: "MONSTAR", albumId: "album_1", songId: "co-hen-voi-thanh-xuan", imagePath: "assets/images/CoHenVoiThanhXuan.png" },
   { title: "Nàng Thơ", artist: "Hoàng Dũng", albumId: "album_1", songId: "nang-tho", imagePath: "assets/images/NangTho.png" },
   { title: "Sau Lưng Anh Có Ai Kìa", artist: "Thiều Bảo Trâm", albumId: "album_1", songId: "sau-lung-anh-co-ai-kia", imagePath: "assets/images/SauLungAnhCoAiKia.png" },
-  { title: "Gửi Anh Xa Nhớ", artist: "Bích Phương", albumId: "album_1", songId: "gui-anh-xa-nho", imagePath: "assets/images/guianhxanho.png" },
   // Album 2: Nhạc Buồn
   { title: "Không Thể Cùng Nhau Suốt Kiếp", artist: "ERIK, Hòa Minzy", albumId: "album_2", songId: "khong-the-cung-nhau-suot-kiep", imagePath: "assets/images/KhongTheCungNhauSuotKiep.png" },
   { title: "Bức Tranh Từ Nước Mắt", artist: "Mr. Siro", albumId: "album_2", songId: "buc-tranh-tu-nuoc-mat", imagePath: "assets/images/BucTranhTuNuocMat.png" },
   { title: "Chiếc Khăn Gió Ấm", artist: "Thành Trung", albumId: "album_2", songId: "chiec-khan-gio-am", imagePath: "assets/images/ChiecKhanGioAm.png" },
   { title: "Có Chàng Trai Viết Lên Cây", artist: "Phan Mạnh Quỳnh", albumId: "album_2", songId: "co-chang-trai-viet-len-cay", imagePath: "assets/images/CoChangTraiVietLenCay.png" },
   { title: "Gác Lại Âu Lo", artist: "Da LAB, Miu Lê", albumId: "album_2", songId: "gac-lai-au-lo", imagePath: "assets/images/GacLaiAuLo.png" },
-  { title: "Gửi Anh Xa Nhớ", artist: "Bích Phương", albumId: "album_2", songId: "gui-anh-xa-nho", imagePath: "assets/images/guianhxanho.png" }, // Duplicate song in this album
+  { title: "Gửi Anh Xa Nhớ", artist: "Bích Phương", albumId: "album_2", songId: "gui-anh-xa-nho", imagePath: "assets/images/GuiAnhXaNho.png" }, // Duplicate song in this album
   // Album 3: Nhạc Trịnh
   { title: "Áo Lụa Hà Đông", artist: "Hoài Lâm", albumId: "album_3", songId: "ao-lua-ha-dong", imagePath: "assets/images/AoLuaHaDong.png" },
   { title: "Biển Nhớ", artist: "Hồng Nhung", albumId: "album_3", songId: "bien-nho", imagePath: "assets/images/BienNho.png" },
@@ -88,9 +87,6 @@ const allSongsData = [
   { title: "Thành Phố Buồn", artist: "Đan Trường", albumId: "album_3", songId: "thanh-pho-buon", imagePath: "assets/images/ThanhPhoBuon.png" },
   { title: "Riêng Một Góc Trời", artist: "Tuấn Ngọc, Hoàng Dũng", albumId: "album_3", songId: "rieng-mot-goc-troi", imagePath: "assets/images/RiengMotGocTroi.png" },
   // Album 4: Nhạc Hoa Lời Việt
-  { title: "Đại Thiên Bồng", artist: "Lý Viên Kiệt", albumId: "album_4", songId: "dai-thien-bong", imagePath: "assets/images/DaiThienBong.png" },
-  { title: "Đánh Mất Em", artist: "Tỉnh Lung", albumId: "album_4", songId: "danh-mat-em", imagePath: "assets/images/DanhMatEm.png" },
-  { title: "Đồng Miên", artist: "K.D", albumId: "album_4", songId: "dong-mien", imagePath: "assets/images/DongMien.png" },
   { title: "Một Đường Nở Hoa", artist: "Châu Thâm", albumId: "album_4", songId: "mot-duong-no-hoa", imagePath: "assets/images/MotDuongNoHoa.png" },
   { title: "Sứ Thanh Hoa", artist: "Châu Kiệt Luân", albumId: "album_4", songId: "su-thanh-hoa", imagePath: "assets/images/SuThanhHoa.png" },
   { title: "Thời Không Sai Lệch", artist: "Ngài Thần", albumId: "album_4", songId: "thoi-khong-sai-lech", imagePath: "assets/images/ThoiKhongSaiLech.png" },
@@ -119,9 +115,6 @@ const allSongsData = [
   { title: "3107 (Lofi Version)", artist: "W/N", albumId: "album_8", songId: "3107-lofi", imagePath: "assets/images/3107.png" },
   { title: "Đồng Miên", artist: "K.D", albumId: "album_8", songId: "dong-mien", imagePath: "assets/images/DongMien.png" }, // Duplicate
   { title: "Sứ Thanh Hoa", artist: "Châu Kiệt Luân", albumId: "album_8", songId: "su-thanh-hoa", imagePath: "assets/images/SuThanhHoa.png" }, // Duplicate
-  { title: "Thời Không Sai Lệch", artist: "Ngài Thần", albumId: "album_8", songId: "thoi-khong-sai-lech", imagePath: "assets/images/ThoiKhongSaiLech.png" }, // Duplicate
-  { title: "Người Kế Nhiệm", artist: "Nhâm Nhiên", albumId: "album_8", songId: "nguoi-ke-nhiem", imagePath: "assets/images/NguoiKeNhiem.png" }, // Duplicate
-  { title: "Phi Điểu Và Ve Sầu", artist: "Nhâm Nhiên", albumId: "album_8", songId: "phi-dieu-va-ve-sau", imagePath: "assets/images/PhiDieuVaVeSau.png" } // Duplicate
 ];
 
 // --- Search Functionality ---
