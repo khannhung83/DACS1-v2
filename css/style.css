@@ -8,12 +8,14 @@ body {
   font-family: 'Roboto', sans-serif;
   margin: 0;
   padding: 0;
-  background: linear-gradient(135deg, #ffebf2, #defafe);
+  background: linear-gradient(135deg, #ffebf2, #bef7ff);
   background-size: cover;
   color: #333;
   max-width: 100%;
   overflow-x: hidden;
 }
+
+
 
 /* Container chính để giới hạn nội dung không sát rìa màn hình */
 .container {
